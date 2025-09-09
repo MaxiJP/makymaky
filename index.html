@@ -105,11 +105,16 @@
     <!-- Lua -->
     <script type="application/lua">
       local chatBtn = gurt.select("#makychat-btn")
+      local otherBtn = gurt.select("#signup-btn")
 
-
+      otherBtn:on("click", function()
+        gurt.location.goto("gurt://localhost/home")
+      end)
+      
       chatBtn:on("click", function()
         gurt.location.goto("gurt://localhost/home")
       end)
+      
     </script>
 
   </body>
