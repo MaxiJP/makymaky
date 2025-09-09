@@ -4,7 +4,6 @@
   <title>MakyMaky Dashboard (麥麥)</title>
   <meta name="description" content="Your banking dashboard - view balance, generate and redeem codes, check transactions." />
   <icon src="https://img.icons8.com/ios-filled/50/ffffff/bank-building.png" />
-  <font name="Vercetti" src="https://your-cdn.com/fonts/vercetti-regular.woff2" />
 </head>
 <body style="bg-[#071535] text-white font-['Vercetti',sans-serif] flex flex-col items-center min-h-screen px-6 py-12">
 
@@ -19,13 +18,14 @@
 
   <!-- Polished Login/Register Card -->
   <div style="bg-[#0d1f44] w-full max-w-md rounded-3xl p-8 flex flex-col items-center gap-6 shadow-xl mb-12">
-    <h2 style="text-2xl font-bold text-center mb-4">Login or Register</h2>
-    <input type="text" placeholder="Username" style="w-full p-4 rounded-xl text-black text-lg focus:outline-none" />
+    <h2 id="loginprompt" style="text-2xl font-bold text-center mb-4">Login or Register</h2>
+    <input type="text" placeholder="Username" id="username" style="w-5/8 p-4 rounded-xl text-black text-lg focus:outline-none bg-[#ffffff]" />
+    <input type="text" placeholder="Password" id="password" style="w-5/8 p-4 rounded-xl text-black text-lg focus:outline-none bg-[#ffffff]" />
     <div style="flex gap-4 w-full mt-2">
-      <button style="flex-1 bg-[#3b82f6] py-3 rounded-lg font-semibold hover:bg-[#2563eb] active:bg-[#1e40af]">
+      <button id="login" style="flex-1 bg-[#3b82f6] py-3 rounded-lg font-semibold hover:bg-[#2563eb] active:bg-[#1e40af]">
         Login
       </button>
-      <button style="flex-1 bg-[#10b981] py-3 rounded-lg font-semibold hover:bg-[#059669] active:bg-[#047857]">
+      <button id="register" style="flex-1 bg-[#10b981] py-3 rounded-lg font-semibold hover:bg-[#059669] active:bg-[#047857]">
         Register
       </button>
     </div>
@@ -35,25 +35,27 @@
   <div style="bg-[#0d1f44] rounded-3xl p-10 max-w-lg w-full flex flex-col items-center gap-8 shadow-lg">
 
     <!-- Greeting -->
-    <div style="text-xl font-semibold mb-2">
+    <div style="text-xl font-semibold mb-2" id="greeting">
       Greetings, {user}!
     </div>
 
     <!-- Balance Display -->
-    <div style="text-6xl font-extrabold mb-6">
+    <div style="text-6xl font-extrabold mb-6" id="balance">
       $1,234.56
     </div>
 
     <!-- Buttons Row (centered beneath balance) -->
     <div style="flex gap-4 justify-center w-full max-w-xs">
-      <button style="flex-1 bg-[#3b82f6] text-white py-3 rounded-lg font-semibold hover:bg-[#2563eb] active:bg-[#1e40af]">
+      <button id="codegenerate" style="flex-1 w-1/4 bg-[#3b82f6] text-white py-3 rounded-lg font-semibold hover:bg-[#2563eb] active:bg-[#1e40af]">
         Generate Code
       </button>
-      <button style="flex-1 bg-[#3b82f6] text-white py-3 rounded-lg font-semibold hover:bg-[#2563eb] active:bg-[#1e40af]">
+      <button id="coderedeem" style="flex-1 w-1/4 bg-[#3b82f6] text-white py-3 rounded-lg font-semibold hover:bg-[#2563eb] active:bg-[#1e40af]">
         Redeem Code
       </button>
+      
     </div>
-
+    <input type="text" placeholder="Code/Amount" id="amount_code" style="w-1/1 bg-[#ffffff] p-4 rounded-xl text-black text-lg focus:outline-none" />
+    <h4 id="code"></h4>
     <!-- Transaction History -->
     <div style="w-full mt-10 bg-[#0f2343] rounded-2xl p-6 text-left text-lg shadow-inner">
       <h3 style="text-2xl font-semibold mb-4 text-center">Transaction History</h3>
@@ -89,6 +91,139 @@
     © 2025 MakyMaky (麥麥). All rights reserved.
   </footer>
 
+  <script>
+    local username_input = gurt.select("#username")
+    local password_input = gurt.select("#password")
+    local login_prompt = gurt.select("#loginprompt")
+    local greeting = gurt.select("#greeting")
+    local code_input = gurt.select("#amount_code")
+    local code_generate = gurt.select("#codegenerate")
+    local code_redeem = gurt.select("#coderedeem")
+    local code = gurt.select("#code")
+
+    local username = ""
+
+    local register_button = gurt.select("#register")
+    local login_button = gurt.select("#login")
+    local balance = gurt.select('#balance')
+
+    local token = "none"
+
+    function load_page()
+      local money
+
+      greeting.text = "Greetings, "..username.."!"
+
+      local money_res = fetch('http://localhost:19800/maxcoin/check', {
+        method = 'POST',
+        headers = {
+          ['Content-Type'] = 'application/json'
+          },
+            body = JSON.stringify({
+            username = username
+          })
+        })
+        if money_res:ok() then
+          money = money_res:json().maxcoins
+        else
+          trace.log('Failed to query maxcoins of user #'..username..'#')
+        end
+
+        balance.text = '¥'..tostring(money)
+    end
+
+    code_generate:on('mouseup', function(event)
+        local nowamount = tonumber(code_input.value)
+        local response = fetch('http://localhost:19800/maxcoin/code/generate', {
+            method = 'POST',
+            headers = {
+                ['Content-Type'] = 'application/json'
+            },
+            body = JSON.stringify({
+                token = token,
+                amount = nowamount
+            })
+        })
+        if response:ok() then
+            local data = response:json()
+            code.text = "Generated code! Code: "..data.generated_code
+            load_page()
+        else
+          if response.status == 500 then
+            code.text = "Insufficient funds."
+          end
+          trace.log('Failed request. Status: '..response.status)
+        end
+    end)
+
+    code_redeem:on('mouseup', function(event)
+        local nowcode = code_input.value
+        local response = fetch('http://localhost:19800/maxcoin/code/redeem', {
+            method = 'POST',
+            headers = {
+                ['Content-Type'] = 'application/json'
+            },
+            body = JSON.stringify({
+                token = token,
+                code = nowcode
+            })
+        })
+
+        if response:ok() then
+            code.text = "Successfully redeemed!"
+            load_page()
+        else
+          if response.status == 501 then
+            code.text = "Code already redeemed."
+          elseif response.status == 400 then
+            code.text = "Code not found."
+          end      
+          trace.log('Failed request. Status: '..response.status)
+        end
+    end)
+
+    login_button:on('mouseup', function(event)
+        local response = fetch('http://localhost:19800/user/login', {
+            method = 'POST',
+            headers = {
+                ['Content-Type'] = 'application/json'
+            },
+            body = JSON.stringify({
+                username = username_input.value,
+                password = password_input.value
+            })
+        })
+        if response:ok() then
+            local data = response:json()
+            token = data.token
+            login_prompt.text = 'Logged in!'
+            username = username_input.value
+        else
+          trace.log('Failed request. Status: '..response.status)
+        end
+
+        load_page()
+    end)
+
+    register_button:on('mouseup', function(event)
+        local response = fetch('http://localhost:19800/user/create', {
+            method = 'POST',
+            headers = {
+                ['Content-Type'] = 'application/json'
+            },
+            body = JSON.stringify({
+                username = username_input.value,
+                password = password_input.value
+            })
+        })
+        if not response:ok() then
+            trace.log('Failed request. Status: '..response.status)
+        else
+          login_prompt.text = 'Registered!'
+          trace.log('200')
+        end
+    end)
+  </script>
+
 </body>
 </html>
-
