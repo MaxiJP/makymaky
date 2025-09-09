@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MakyMaky Dashboard (麥麥)</title>
+  <meta name="description" content="Your banking dashboard - view balance, generate and redeem codes, check transactions." />
+  <icon src="https://img.icons8.com/ios-filled/50/ffffff/bank-building.png" />
+  <font name="Vercetti" src="https://your-cdn.com/fonts/vercetti-regular.woff2" />
+</head>
+<body style="bg-[#071535] text-white font-['Vercetti',sans-serif] flex flex-col items-center min-h-screen px-6 py-12">
+
+  <!-- Top bar -->
+  <div style="w-full flex justify-center mb-6">
+    <div style="bg-gray-800 w-full max-w-screen-xl rounded-2xl px-6 py-4 flex justify-center shadow-md">
+      <button style="bg-[#3b82f6] px-5 py-2 rounded-lg font-semibold hover:bg-[#2563eb] active:bg-[#1e40af]">
+        Go to MakyChat
+      </button>
+    </div>
+  </div>
+
+  <!-- Polished Login/Register Card -->
+  <div style="bg-[#0d1f44] w-full max-w-md rounded-3xl p-8 flex flex-col items-center gap-6 shadow-xl mb-12">
+    <h2 style="text-2xl font-bold text-center mb-4">Login or Register</h2>
+    <input type="text" placeholder="Username" style="w-full p-4 rounded-xl text-black text-lg focus:outline-none" />
+    <div style="flex gap-4 w-full mt-2">
+      <button style="flex-1 bg-[#3b82f6] py-3 rounded-lg font-semibold hover:bg-[#2563eb] active:bg-[#1e40af]">
+        Login
+      </button>
+      <button style="flex-1 bg-[#10b981] py-3 rounded-lg font-semibold hover:bg-[#059669] active:bg-[#047857]">
+        Register
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Content Box -->
+  <div style="bg-[#0d1f44] rounded-3xl p-10 max-w-lg w-full flex flex-col items-center gap-8 shadow-lg">
+
+    <!-- Greeting -->
+    <div style="text-xl font-semibold mb-2">
+      Greetings, {user}!
+    </div>
+
+    <!-- Balance Display -->
+    <div style="text-6xl font-extrabold mb-6">
+      $1,234.56
+    </div>
+
+    <!-- Buttons Row (centered beneath balance) -->
+    <div style="flex gap-4 justify-center w-full max-w-xs">
+      <button style="flex-1 bg-[#3b82f6] text-white py-3 rounded-lg font-semibold hover:bg-[#2563eb] active:bg-[#1e40af]">
+        Generate Code
+      </button>
+      <button style="flex-1 bg-[#3b82f6] text-white py-3 rounded-lg font-semibold hover:bg-[#2563eb] active:bg-[#1e40af]">
+        Redeem Code
+      </button>
+    </div>
+
+    <!-- Transaction History -->
+    <div style="w-full mt-10 bg-[#0f2343] rounded-2xl p-6 text-left text-lg shadow-inner">
+      <h3 style="text-2xl font-semibold mb-4 text-center">Transaction History</h3>
+
+      <!-- Placeholder Entries -->
+      <div style="flex justify-between py-3 border-b border-[#1a2a4d]">
+        <span>Deposit</span>
+        <span>+$200.00</span>
+      </div>
+      <div style="flex justify-between py-3 border-b border-[#1a2a4d]">
+        <span>Purchase</span>
+        <span>-$50.00</span>
+      </div>
+      <div style="flex justify-between py-3 border-b border-[#1a2a4d]">
+        <span>Deposit</span>
+        <span>+$500.00</span>
+      </div>
+      <div style="flex justify-between py-3">
+        <span>Withdrawal</span>
+        <span>-$100.00</span>
+      </div>
+    </div>
+
+    <!-- Optional additional info or filler text -->
+    <div style="mt-6 text-center opacity-80">
+      Your MakyMaky account is secure, trusted, and fully managed by you.
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer style="w-full text-center text-sm mt-12 opacity-60">
+    © 2025 MakyMaky (麥麥). All rights reserved.
+  </footer>
+
+</body>
+</html>
+

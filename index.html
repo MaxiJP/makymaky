@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MakyMaky (麥麥) – Secure Banking</title>
+    <meta name="description" content="MakyMaky (麥麥) – Secure, trusted, and modern banking for everyone." />
+    <icon src="https://img.icons8.com/ios-filled/50/ffffff/bank-building.png" />
+
+    <!-- Embed uncommon modern sans-serif font -->
+    <font name="Vercetti" src="https://your-cdn.com/fonts/vercetti-regular.woff2" />
+  </head>
+
+  <body style="bg-[#071535] text-white flex flex-col items-center justify-start min-h-screen font-['Vercetti',sans-serif]">
+
+    <!-- Top grey bar -->
+    <div style="w-full bg-gray-800 py-4 px-6 flex justify-center">
+      <button id="makychat-btn" style="bg-[#3b82f6] px-5 py-2 rounded-lg font-semibold hover:bg-[#2563eb] active:bg-[#1e40af]">
+        Go to MakyChat
+      </button>
+    </div>
+
+	<!-- Header -->
+	<header style="w-full flex flex-col items-center mt-6 mb-6">
+	  <!-- Logo / Name -->
+	  <div style="text-2xl font-bold text-center">MakyMaky <span style="text-opacity-80">麥麥</span></div>
+	  
+	  <!-- Centered tagline -->
+	  <div style="w-full flex justify-center mt-1">
+	    <span style="text-sm">Modern • Secure • Trusted</span>
+	  </div>
+	</header>
+
+    <!-- Hero -->
+    <section id="home" style="flex flex-col items-center justify-center flex-1 text-center px-6 relative w-full">
+      <h1 style="text-5xl font-extrabold mb-4 z-10">Welcome to <span style="text-[#3b82f6]"> MakyMaky (麥麥)</span></h1>
+      <p style="text-lg opacity-80 max-w-2xl mb-6 z-10">
+        A banking experience designed for modern life—secure encryption, independent audits, and a clean interface that makes managing money fast and stress-free.
+      </p>
+      <button id="signup-btn" style="bg-[#3b82f6] text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:bg-[#2563eb] active:bg-[#1e40af] z-10">
+        Create Your Account
+      </button>
+    </section>
+
+    <!-- Why Choose -->
+<section style="w-full flex flex-col items-center px-6 mb-12">
+  <div style="bg-[#0f2343] rounded-2xl p-8 max-w-5xl w-full text-center">
+    <h2 style="text-3xl font-bold mb-4">Why Choose MakyMaky?</h2>
+    <p style="opacity-80 mb-8">Secure, trusted, modern banking for everyone. Thousands rely on us—here’s why:</p>
+
+    <!-- Flex container for cards -->
+    <div style="flex flex-col md:flex-row gap-6 w-full">
+      
+      <!-- Card 1 -->
+      <div style="flex-1 bg-[#0b1730] p-6 rounded-lg shadow-md">
+        <h3 style="text-xl font-semibold mb-2">🔒 Secure by Design</h3>
+        <p style="opacity-80">End-to-end encryption and regular audits.</p>
+      </div>
+
+      <!-- Card 2 -->
+      <div style="flex-1 bg-[#0b1730] p-6 rounded-lg shadow-md">
+        <h3 style="text-xl font-semibold mb-2">✅ Trusted & Audited</h3>
+        <p style="opacity-80">Transparent compliance and reporting.</p>
+      </div>
+
+      <!-- Card 3 -->
+      <div style="flex-1 bg-[#0b1730] p-6 rounded-lg shadow-md">
+        <h3 style="text-xl font-semibold mb-2">⚡ Fast & Modern</h3>
+        <p style="opacity-80">Instant transfers and sleek design.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+    <!-- Footer -->
+    <footer style="text-center py-6 opacity-70 w-full">
+      © 2025 MakyMaky (麥麥) — Secure • Trusted • Modern
+    </footer>
+
+    <!-- Signup Page -->
+    <main id="signup" style="hidden flex flex-col items-center justify-center flex-1 px-6 py-12 w-full">
+      <div style="bg-[#0f2343] p-10 rounded-2xl shadow-lg w-full max-w-md text-center mb-12">
+        <h2 style="text-2xl font-bold mb-4">Create Your Account</h2>
+        <form id="signup-form" style="flex flex-col gap-4">
+          <input type="text" name="full_name" placeholder="Full Name" required style="p-3 rounded-md text-black" />
+          <input type="email" name="email" placeholder="Email Address" required style="p-3 rounded-md text-black" />
+          <input type="password" name="password" placeholder="Password" required style="p-3 rounded-md text-black" />
+          <button type="submit" style="bg-[#3b82f6] text-white py-3 rounded-lg font-semibold hover:bg-[#2563eb] active:bg-[#1e40af] mt-2">
+            Sign Up
+          </button>
+        </form>
+        <p id="signup-status" style="text-sm opacity-70 mt-4"></p>
+        <button id="back-btn" style="mt-6 bg-gray-600 px-4 py-2 rounded-md hover:bg-gray-500">
+          ← Back to Home
+        </button>
+      </div>
+      <!-- Copyright below signup box -->
+      <div style="w-full bg-gray-800 py-4 px-6 flex justify-center rounded-lg">
+	      <div style="opacity-60 text-sm text-center">
+		© 2025 MakyMaky (麥麥). All rights reserved.
+	      </div>
+    </div>
+
+    </main>
+
+    <!-- Lua -->
+    <script type="application/lua">
+      -- Import accpi library
+--      local accpi = require("accpi")
+
+      local home = gurt.select("#home")
+      local signup = gurt.select("#signup")
+      local signupBtn = gurt.select("#signup-btn")
+      local backBtn = gurt.select("#back-btn")
+      local form = gurt.select("#signup-form")
+      local status = gurt.select("#signup-status")
+      local chatBtn = gurt.select("#makychat-btn")
+
+      signup.visible = false
+
+      signupBtn:on("click", function()
+        home.visible = false
+        signup.visible = true
+        gurt.location.href = "gurt://signup"
+      end)
+
+      backBtn:on("click", function()
+        signup.visible = false
+        home.visible = true
+        gurt.location.href = "gurt://home"
+      end)
+
+      -- Handle signup with accpi
+--      form:on("submit", function(event)
+--        status.text = "Creating your account..."
+--        local ok, err = accpi.create_user({
+--          name = event.data.full_name,
+--          email = event.data.email,
+--          password = event.data.password
+--        })
+--        if ok then
+--          status.text = "✅ Signup successful! Welcome to MakyMaky."
+--        else
+--          status.text = "❌ " .. (err or "Something went wrong. Please try again.")
+--        end
+--      end)
+
+      chatBtn:on("click", function()
+        gurt.location.goto("gurt://makychat/home")
+      end)
+    </script>
+
+  </body>
+</html>
+
