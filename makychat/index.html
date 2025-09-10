@@ -1,0 +1,125 @@
+<gurt-page lang="en">
+  <head>
+    <title>MakyChat 麥聊</title>
+    <style>
+      body {
+        bg-[#0f172a] font-sans flex min-h-screen
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Main container: sidebar + chat -->
+    <div style="flex w-full h-full">
+
+      <!-- Sidebar -->
+      <div style="w-64 bg-[#111827] p-6 flex flex-col gap-4 text-[#f8fafc] h-screen">
+        <h2 style="text-2xl font-bold">MakyChat 麥聊</h2>
+        <input id="usernameInput" placeholder="Username" style="p-2 rounded-md bg-[#1e293b] text-[#f8fafc] border-none" />
+        <input id="passwordInput" placeholder="Password" style="p-2 rounded-md bg-[#1e293b] text-[#f8fafc] border-none" />
+        <button id="loginBtn" style="p-2 rounded-md bg-[#2563eb] text-white cursor-pointer">Login</button>
+        <p id="login-text">Logged in!</p>
+      </div>
+
+      <!-- Chat + input -->
+      <div style="flex-1 flex flex-col justify-between bg-[#1e293b] w-130 rounded-tr-xl rounded-br-xl shadow-inner p-6">
+        
+        <!-- Chat messages -->
+        <div id="chatArea" style="flex-1 flex flex-col gap-3 overflow-y-auto w-120 h-65">
+          <div style="max-w-2/5 p-3 rounded-2xl mb-2 word-break break-word bg-[#374151] text-[#f8fafc] self-start">
+            <p>Welcome to MakyChat (麥聊)! This is a chatroom with one channel. The point of this is to be nice and simple so that chatting isn't complicated. This is how it was meant to be back in the days of IRC: just a channel, some usernames, and some messages. That's it. SCAM WARNING: Anyone claiming to be doing official key drops who ISN'T "makymaky_admin" ISN'T OFFICIAL. Unofficial keydrops are however allowed.</p>
+          </div>
+          <div style="max-w-2/5 p-3 rounded-2xl mb-2 word-break break-word bg-[#374151] text-[#f8fafc] self-start">
+            <p>Login to see messages and start chatting. (Chats never save)</p>
+          </div>
+        </div>
+
+        <!-- Input bar -->
+        <div style="flex gap-3 mt-3">
+          <input id="messageInput" placeholder="Type your message..." style="w-1/1 flex-1 p-3 rounded-full bg-[#ffffff] text-[#0a0a0a] border-none" />
+          <button id="sendBtn" style="w-1/8 p-3 rounded-full bg-[#2563eb] text-white cursor-pointer">Send</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lua script for interactivity -->
+    <script>
+      local username = "max"
+      local chatArea = gurt.select("#chatArea")
+      local loginBtn = gurt.select("#loginBtn")
+      local sendBtn = gurt.select("#sendBtn")
+      local usernameInput = gurt.select("#usernameInput")
+      local passwordInput = gurt.select("#passwordInput")
+      local messageInput = gurt.select("#messageInput")
+      local login_text = gurt.select("#login-text")
+
+      login_text.visible = false
+
+      local token = "none"
+      local ws
+
+      function create_black_message(text)
+        local msgDiv = gurt.create("div", {
+          style = "max-w-2/5 p-3 rounded-2xl mb-2 word-break break-word bg-[#374151] text-[#f8fafc] self-start",
+          text = text
+        })
+        chatArea:append(msgDiv)
+        messageInput.value = ""
+      end
+
+    function create_blue_message(text)
+        local msgDiv = gurt.create("div", {
+          style = "max-w-2/5 p-3 rounded-2xl mb-2 word-break break-word bg-[#3b82f6] text-white self-end",
+          text = text
+        })
+        chatArea:append(msgDiv)
+        messageInput.value = ""
+    end
+
+    function connect_to_ws()
+        ws = WebSocket.new('ws://52.73.91.223:8080/')
+        ws:on('open', function()
+            trace.log('WebSocket connected')
+        end)
+        ws:on('message', function(data)
+            create_black_message(data.data)
+        end)
+    end
+
+
+    sendBtn:on('mouseup', function(event)
+        local text = messageInput.value
+        create_blue_message(text)
+        if token == "none" then
+          trace.log(token)
+        else
+          ws:send(token.."=[[--]]=="..text);
+        end
+    end)
+
+    loginBtn:on('mouseup', function(event)
+        local response = fetch('http://52.73.91.223:19800/user/login', {
+            method = 'POST',
+            headers = {
+                ['Content-Type'] = 'application/json'
+            },
+            body = JSON.stringify({
+                username = usernameInput.value,
+                password = passwordInput.value
+            })
+        })
+        if response:ok() then
+            local data = response:json()
+            token = data.token
+            login_text.visible = true
+        else
+          trace.log('Failed request. Status: '..response.status)
+        end
+
+        connect_to_ws()
+    end)
+
+
+    </script>
+  </body>
+</gurt-page>

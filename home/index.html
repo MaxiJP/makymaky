@@ -10,14 +10,16 @@
   <!-- Top bar -->
   <div style="w-full flex justify-center mb-6">
     <div style="bg-gray-800 w-full max-w-screen-xl rounded-2xl px-6 py-4 flex justify-center shadow-md">
-      <button style="bg-[#3b82f6] px-5 py-2 rounded-lg font-semibold hover:bg-[#2563eb] active:bg-[#1e40af]">
+      <button id="makychat-btn" style="bg-[#3b82f6] px-5 py-2 rounded-lg font-semibold hover:bg-[#2563eb] active:bg-[#1e40af]">
         Go to MakyChat
       </button>
     </div>
   </div>
 
   <!-- Polished Login/Register Card -->
-  <div style="bg-[#0d1f44] w-full max-w-md rounded-3xl p-8 flex flex-col items-center gap-6 shadow-xl mb-12">
+     <div style="w-full flex justify-center mb-6">
+    <div style="w-full max-w-screen-xl rounded-2xl px-6 py-4 flex justify-center shadow-md">
+  <div id="userbox" style="bg-[#0d1f44] w-full max-w-md rounded-3xl p-8 flex flex-col items-center gap-6 shadow-xl mb-12">
     <h2 id="loginprompt" style="text-2xl font-bold text-center mb-4">Login or Register</h2>
     <input type="text" placeholder="Username" id="username" style="w-5/8 p-4 rounded-xl text-black text-lg focus:outline-none bg-[#ffffff]" />
     <input type="text" placeholder="Password" id="password" style="w-5/8 p-4 rounded-xl text-black text-lg focus:outline-none bg-[#ffffff]" />
@@ -30,18 +32,20 @@
       </button>
     </div>
   </div>
+    </div>
+  </div>
 
   <!-- Main Content Box -->
-  <div style="bg-[#0d1f44] rounded-3xl p-10 max-w-lg w-full flex flex-col items-center gap-8 shadow-lg">
+  <div id="maindiv" style="w-1/2 bg-[#0d1f44] rounded-3xl p-10 max-w-lg w-full flex flex-col items-center gap-8 shadow-lg">
 
     <!-- Greeting -->
     <div style="text-xl font-semibold mb-2" id="greeting">
-      Greetings, {user}!
+      Greetings, Demo User!
     </div>
 
     <!-- Balance Display -->
     <div style="text-6xl font-extrabold mb-6" id="balance">
-      $1,234.56
+      ¥69420
     </div>
 
     <!-- Buttons Row (centered beneath balance) -->
@@ -56,35 +60,51 @@
     </div>
     <input type="text" placeholder="Code/Amount" id="amount_code" style="w-1/1 bg-[#ffffff] p-4 rounded-xl text-black text-lg focus:outline-none" />
     <h4 id="code"></h4>
-    <!-- Transaction History -->
-    <div style="w-full mt-10 bg-[#0f2343] rounded-2xl p-6 text-left text-lg shadow-inner">
-      <h3 style="text-2xl font-semibold mb-4 text-center">Transaction History</h3>
 
-      <!-- Placeholder Entries -->
-      <div style="flex justify-between py-3 border-b border-[#1a2a4d]">
-        <span>Deposit</span>
-        <span>+$200.00</span>
+<section style="w-1/1 flex flex-col items-center px-6 mb-12">
+  <div style="bg-[#0f2343] rounded-2xl p-8 max-w-5xl w-90 text-center">
+    <h2 style="text-3xl font-bold mb-4">Questions & Answers              </h2>
+    <p style="opacity-80 mb-8">Here are a few FAQs and their responses.</p>
+
+    <!-- Flex container for cards -->
+    <div style="flex flex-col md:flex-row gap-6 w-full">
+      
+      <!-- Card 1 -->
+      <div style="flex-1 bg-[#0b1730] p-6 rounded-lg shadow-md">
+        <h3 style="text-xl font-semibold mb-2">How do I get money?</h3>
+        <p style="opacity-80">For that, there is a channel in our other app in our ecosystem makych.at with a channel dedicated to key drops. They will drop every now and then from the account makymaky_admin.</p>
       </div>
-      <div style="flex justify-between py-3 border-b border-[#1a2a4d]">
-        <span>Purchase</span>
-        <span>-$50.00</span>
+
+      <!-- Card 2 -->
+      <div style="flex-1 bg-[#0b1730] p-6 rounded-lg shadow-md">
+        <h3 style="text-xl font-semibold mb-2">What is makych.at?</h3>
+        <p style="opacity-80">We aren't just a bank. We are an ecosystem. We have an audio app on the way and we have a discord-like chat room. Your makymaky account is used for makych.at</p>
       </div>
-      <div style="flex justify-between py-3 border-b border-[#1a2a4d]">
-        <span>Deposit</span>
-        <span>+$500.00</span>
+
+      <!-- Card 3 -->
+      <div style="flex-1 bg-[#0b1730] p-6 rounded-lg shadow-md">
+        <h3 style="text-xl font-semibold mb-2">Can I directly transfer money to a friend?</h3>
+        <p style="opacity-80">Technically no. You can absolutely generate a code and then send it to them, however that is up to you. The point of this system is that it is very simple to send over text and makych.at.</p>
       </div>
-      <div style="flex justify-between py-3">
-        <span>Withdrawal</span>
-        <span>-$100.00</span>
-      </div>
+
     </div>
+  </div>
+</section>
 
     <!-- Optional additional info or filler text -->
-    <div style="mt-6 text-center opacity-80">
+  <div style="mt-6 text-center opacity-80">
       Your MakyMaky account is secure, trusted, and fully managed by you.
     </div>
 
+    
+
   </div>
+
+  <div style="opacity-60 text-sm text-center">
+		© 2025 MakyMaky (麥麥). All rights reserved.
+	</div>
+
+
 
   <!-- Footer -->
   <footer style="w-full text-center text-sm mt-12 opacity-60">
@@ -100,6 +120,8 @@
     local code_generate = gurt.select("#codegenerate")
     local code_redeem = gurt.select("#coderedeem")
     local code = gurt.select("#code")
+    local user_box = gurt.select("#userbox")
+    local main_div = gurt.select("#maindiv")
 
     local username = ""
 
@@ -109,12 +131,18 @@
 
     local token = "none"
 
+    local btn = gurt.select("#makychat-btn")
+
+    btn:on("click", function()
+      gurt.location.goto("gurt://makych.at")
+    end)
+
     function load_page()
       local money
 
       greeting.text = "Greetings, "..username.."!"
 
-      local money_res = fetch('http://localhost:19800/maxcoin/check', {
+      local money_res = fetch('http://52.73.91.223:19800/maxcoin/check', {
         method = 'POST',
         headers = {
           ['Content-Type'] = 'application/json'
@@ -134,31 +162,36 @@
 
     code_generate:on('mouseup', function(event)
         local nowamount = tonumber(code_input.value)
-        local response = fetch('http://localhost:19800/maxcoin/code/generate', {
-            method = 'POST',
-            headers = {
-                ['Content-Type'] = 'application/json'
-            },
-            body = JSON.stringify({
-                token = token,
-                amount = nowamount
-            })
-        })
-        if response:ok() then
-            local data = response:json()
-            code.text = "Generated code! Code: "..data.generated_code
-            load_page()
+        if nowamount == nil then
+          code.text = "Enter a number please."
         else
-          if response.status == 500 then
-            code.text = "Insufficient funds."
+          local response = fetch('http://52.73.91.223:19800/maxcoin/code/generate', {
+              method = 'POST',
+              headers = {
+                  ['Content-Type'] = 'application/json'
+              },
+              body = JSON.stringify({
+                  token = token,
+                  amount = nowamount
+              })
+          })
+          if response:ok() then
+              local data = response:json()
+              code.text = "Generated code! Code: "..data.generated_code
+              load_page()
+              
+          else
+            if response.status == 500 then
+              code.text = "Insufficient funds."
+            end
+            trace.log('Failed request. Status: '..response.status)
           end
-          trace.log('Failed request. Status: '..response.status)
         end
     end)
 
     code_redeem:on('mouseup', function(event)
         local nowcode = code_input.value
-        local response = fetch('http://localhost:19800/maxcoin/code/redeem', {
+        local response = fetch('http://52.73.91.223:19800/maxcoin/code/redeem', {
             method = 'POST',
             headers = {
                 ['Content-Type'] = 'application/json'
@@ -183,7 +216,7 @@
     end)
 
     login_button:on('mouseup', function(event)
-        local response = fetch('http://localhost:19800/user/login', {
+        local response = fetch('http://52.73.91.223:19800/user/login', {
             method = 'POST',
             headers = {
                 ['Content-Type'] = 'application/json'
@@ -196,7 +229,8 @@
         if response:ok() then
             local data = response:json()
             token = data.token
-            login_prompt.text = 'Logged in!'
+            user_box.visible = false
+            main_div.visible = true
             username = username_input.value
         else
           trace.log('Failed request. Status: '..response.status)
@@ -206,7 +240,7 @@
     end)
 
     register_button:on('mouseup', function(event)
-        local response = fetch('http://localhost:19800/user/create', {
+        local response = fetch('http://52.73.91.223:19800/user/create', {
             method = 'POST',
             headers = {
                 ['Content-Type'] = 'application/json'
