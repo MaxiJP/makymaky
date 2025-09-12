@@ -142,7 +142,7 @@
 
       greeting.text = "Greetings, "..username.."!"
 
-      local money_res = fetch('http://52.73.91.223:19800/maxcoin/check', {
+      local money_res = fetch('http://52.201.214.204:19800/maxcoin/check', {
         method = 'POST',
         headers = {
           ['Content-Type'] = 'application/json'
@@ -165,7 +165,7 @@
         if nowamount == nil then
           code.text = "Enter a number please."
         else
-          local response = fetch('http://52.73.91.223:19800/maxcoin/code/generate', {
+          local response = fetch('http://52.201.214.204:19800/maxcoin/code/generate', {
               method = 'POST',
               headers = {
                   ['Content-Type'] = 'application/json'
@@ -191,7 +191,7 @@
 
     code_redeem:on('mouseup', function(event)
         local nowcode = code_input.value
-        local response = fetch('http://52.73.91.223:19800/maxcoin/code/redeem', {
+        local response = fetch('http://52.201.214.204:19800/maxcoin/code/redeem', {
             method = 'POST',
             headers = {
                 ['Content-Type'] = 'application/json'
@@ -216,7 +216,7 @@
     end)
 
     login_button:on('mouseup', function(event)
-        local response = fetch('http://52.73.91.223:19800/user/login', {
+        local response = fetch('http://52.201.214.204:19800/user/login', {
             method = 'POST',
             headers = {
                 ['Content-Type'] = 'application/json'
@@ -240,7 +240,7 @@
     end)
 
     register_button:on('mouseup', function(event)
-        local response = fetch('http://52.73.91.223:19800/user/create', {
+        local response = fetch('http://52.201.214.204:19800/user/create', {
             method = 'POST',
             headers = {
                 ['Content-Type'] = 'application/json'
